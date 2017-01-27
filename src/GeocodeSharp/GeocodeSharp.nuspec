@@ -1,16 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
   <metadata>
-    <id>$id$</id>
+    <id>GeocodeSharp</id>
     <version>$version$</version>
     <title>Async Google Geocode API for .NET</title>
-    <authors>$author$</authors>
+    <authors>Brandon Cuff, Marco Casamento</authors>
     <owners>Brandon Cuff</owners>
     <licenseUrl>https://github.com/bcuff/GeocodeSharp/blob/master/LICENSE</licenseUrl>
     <projectUrl>https://github.com/marcocasamento/GeocodeSharp</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <description>$description$</description>
-    <releaseNotes>Upgrade to .net core</releaseNotes>
+    <description>Simple and lightweight wrapper around Google geocoding api</description>
+    <releaseNotes>
+      1.6.0 Switched GeocodeClient implementation from WebRequest to HttpClient
+      1.5.0 Upgrade to .net core
+    </releaseNotes>
     <copyright>Copyright 2014</copyright>
     <tags>Geocode Address Maps Geo</tags>
     <dependencies>
@@ -23,7 +26,7 @@
     </dependencies>
   </metadata>
   <files>
-    <file src="bin\Release\net451\GeocodeSharp.dll" target="lib\net451\GeocodeSharp.dll" />
-    <file src="bin\Release\netstandard1.6\GeocodeSharp.dll" target="lib\netstandard1.6\GeocodeSharp.dll" />
+    <file src=".\bin\$configuration$\net451\GeocodeSharp.dll" target="lib\net451\GeocodeSharp.dll" />
+    <file src=".\bin\$configuration$\netstandard1.6\GeocodeSharp.dll" target="lib\netstandard1.6\GeocodeSharp.dll" />
   </files>
 </package>

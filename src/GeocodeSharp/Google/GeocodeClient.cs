@@ -5,6 +5,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using System.Net.Http;
 
 namespace GeocodeSharp.Google
 {
@@ -130,40 +131,39 @@ namespace GeocodeSharp.Google
             var request = BuildRequest(filter, region);
             return await DoRequestAsync(request);            
         }
+        
 
-        private async Task<string> DoRequestAsync(HttpWebRequest request)
+        private async Task<string> DoRequestAsync(string url)
         {
             string json;
             using (var ms = new MemoryStream())
             {
-                using (var response = await request.GetResponseAsync())
-                using (var body = response.GetResponseStream())
+                using (var responseStream = await _proxyProvider.GetStreamAsync(url))
                 {
-                    if (body != null)
-                        await body.CopyToAsync(ms);
+                    if (responseStream != null)
+                        await responseStream.CopyToAsync(ms);
                 }
 
                 json = Encoding.UTF8.GetString(ms.ToArray());
             }
             return json;
         }
-
         
-        private HttpWebRequest BuildRequest(ComponentFilter filter, string region)
+        private string BuildRequest(ComponentFilter filter, string region)
         {
             if (filter == null)
                 throw new ArgumentNullException("filter");
             var addressPortion = BuildAddressPortion(filter, region);
             var authPortion = BuildAuthPortion(addressPortion);
-            return _proxyProvider.CreateRequest(string.Format("{0}{1}{2}{3}", _domain, _apiPath, addressPortion, authPortion));
+            return string.Format("{0}{1}{2}{3}", _domain, _apiPath, addressPortion, authPortion);
         }
 
-        private HttpWebRequest BuildRequest(string address, string region, string language, ComponentFilter filter)
+        private string BuildRequest(string address, string region, string language, ComponentFilter filter)
         {
             if (string.IsNullOrWhiteSpace(address)) throw new ArgumentNullException("address");
             var addressPortion = BuildAddressPortion(address, region, language, filter);
             var authPortion = BuildAuthPortion(addressPortion);
-            return _proxyProvider.CreateRequest(string.Format("{0}{1}{2}{3}", _domain, _apiPath, addressPortion, authPortion));
+            return string.Format("{0}{1}{2}{3}", _domain, _apiPath, addressPortion, authPortion);
         }
 
         private string BuildAuthPortion(string addressPortion)

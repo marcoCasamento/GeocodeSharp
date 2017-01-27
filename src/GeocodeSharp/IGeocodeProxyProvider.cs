@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net;
+using System.Threading.Tasks;
 
 namespace GeocodeSharp
 {
     public interface IGeocodeProxyProvider
     {
-        HttpWebRequest CreateRequest(string url);
+        Task<Stream> GetStreamAsync(string url);
     }
 }
